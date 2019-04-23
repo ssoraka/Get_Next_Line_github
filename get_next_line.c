@@ -30,6 +30,8 @@ static int		end_line(char **line, char **str)
 		*line = ft_strdup(temp);
 		*str = ft_strdup(temp2 + 1);
 		free(temp);
+		if ((*str)[0] == '\0')
+			ft_strdel(str);
 		return (1);
 	}
 	*line = *str;
@@ -40,11 +42,11 @@ static int		end_line(char **line, char **str)
 int				get_next_line(const int fd, char **line)
 {
 	char		buf[BUFF_SIZE + 1];
-	static char *str[11000];
+	static char *str[10240];
 	char		*temp;
 	int			ret;
 
-	if (fd < 0 || read(fd, NULL, 0) < 0 || !line || BUFF_SIZE > 11000)
+	if (fd < 0 || read(fd, NULL, 0) < 0 || !line || fd > 10240)
 		return (-1);
 	if (!(str[fd]))
 		str[fd] = ft_strnew(0);
